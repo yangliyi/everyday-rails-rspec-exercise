@@ -1,0 +1,48 @@
+Lint/AssignmentInCondition:
+  Exclude:
+    - 'bin/spring'
+
+Metrics/LineLength:
+  Max: 303
+
+Style/AlignParameters:
+  Exclude:
+    - 'bin/rspec'
+    - 'config/application.rb'
+
+Style/AsciiComments:
+  Exclude:
+    - 'Gemfile'
+    - 'config/application.rb'
+
+Documentation:
+  Enabled: false
+
+Style/EmptyLines:
+  Exclude:
+    - 'Gemfile'
+
+Style/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'Gemfile'
+    - 'config/application.rb'
+    - 'db/schema.rb'
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Style/SpaceAroundKeyword:
+  Exclude:
+    - 'config/application.rb'
+
+Style/SpaceInsideBrackets:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'

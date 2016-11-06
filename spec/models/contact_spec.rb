@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Contact, :type => :model do
+describe Contact do
   it "is valid with a first name, last name and email" do
     contact = Contact.new(
       firstname: "Li Yi",
@@ -44,8 +44,11 @@ RSpec.describe Contact, :type => :model do
   end
 
   it "returns a contact's full name as a string" do
-    contact = Contact.new(firstname: 'Li Yi', lastname: 'Yang',
-    email: 'yangliyi@example.com')
+    contact = Contact.new(
+      firstname: 'Li Yi',
+      lastname: 'Yang',
+      email: 'yangliyi@example.com'
+    )
     expect(contact.name).to eq 'Li Yi Yang'
   end
 
@@ -80,5 +83,4 @@ RSpec.describe Contact, :type => :model do
       end
     end
   end
-
 end

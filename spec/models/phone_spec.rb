@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Phone, :type => :model do
+describe Phone do
   it "does not allow duplicate phone numbers per contact" do
     contact = Contact.create(
       firstname: 'Li Yi',
