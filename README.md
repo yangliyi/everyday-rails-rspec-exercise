@@ -47,3 +47,41 @@ config.generatorsdo|g|  g.test_framework :rspec,
 
 ```$ bin/rspec```
 
+## Chapter3: Model Specs
++ **It describes a set of expectations** –in this case,what the Contact model should look like, and how it should behave.+ **Each example (a line beginning with it) only expects one thing.** Notice that I’m testing the firstname, lastname, and email validations separately. This way, if an example fails, I know it’s because of that specific validation, and don’t have to dig through RSpec’s output for clues–at least, not as deeply.+ **Each example is explicit.** The descriptive string after it is technically optional in RSpec. However, omitting it makes your specs more difficult to read.+ **Each example’s description begins with a verb,not should.** Read the expectations aloud: Contact is invalid without a firstname, Contact is invalid without a lastname, Contact returns a contact’s full name as a string. Readability is important!
+
+```
+require 'rails_helper'
+
+RSpec.describe Contact, :type => :model do
+
+  # validation examples...
+
+  describe "filter last name by letter" do
+    before :each do
+	   # creating test data...
+    end
+
+    context "with matching letters" do
+      it "returns a sorted array of results that match" do
+        # examples...
+      end
+    end
+
+    context "with non-matching letters" do
+      it "omits results that do not match" do
+		  # examples...
+      end
+    end
+  end
+
+end
+
+```
+
+### Summary
+
++ **Use active, explicit expectations:** Use verbs to explain what an example’s results should be. Only check for one result per example.+ **Test for what you expect to happen, and for what you expect to not happen:** Think about both paths when writing examples, and test accordingly. 
++ **Test for edge cases:** If you have a validation that requires a password be between four and ten characters in length, don’t just test an eight-character password and call it good. A good set of tests would test at four and ten, as well as at three and eleven. (Of course, you might also take the opportunity to ask yourself why you’d allow such short passwords, or not allow longer ones. Testing is also a good opportunity to reflect on an application’s requirementsand code.)
+
++ **Organize your specs for good readability:** Use describe and context to sort similar examples into an outline format, and before and after blocks to remove duplication. However, in the case of tests readability trumps DRY– if you find yourself having to scroll up and down your spec too much, it’s okay to repeat yourself a bit.
