@@ -34,7 +34,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 
-  gem "rspec-rails", "~> 3.1.0"
+  gem 'rspec-rails', '>= 3.5.0'
   # rspec-rails includes RSpec itself in a wrapper to add some extra Rails-specific features.
   gem "factory_girl_rails", "~> 4.4.1"
   # factory_girl_rails replaces Rails’ default fixtures for feeding test data to the test suite with much more preferable factories.
