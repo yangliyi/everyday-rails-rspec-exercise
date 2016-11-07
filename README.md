@@ -83,5 +83,42 @@ end
 
 + **Use active, explicit expectations:** Use verbs to explain what an example’s results should be. Only check for one result per example.+ **Test for what you expect to happen, and for what you expect to not happen:** Think about both paths when writing examples, and test accordingly. 
 + **Test for edge cases:** If you have a validation that requires a password be between four and ten characters in length, don’t just test an eight-character password and call it good. A good set of tests would test at four and ten, as well as at three and eleven. (Of course, you might also take the opportunity to ask yourself why you’d allow such short passwords, or not allow longer ones. Testing is also a good opportunity to reflect on an application’s requirementsand code.)
-
 + **Organize your specs for good readability:** Use describe and context to sort similar examples into an outline format, and before and after blocks to remove duplication. However, in the case of tests readability trumps DRY– if you find yourself having to scroll up and down your spec too much, it’s okay to repeat yourself a bit.
+
+## Chapter4: Generating test data with factories
+
+### Sequence:
+**spec/factories/phones.rb**:
+
+```
+  factory :contact do
+    firstname "Li Yi"
+    lastname "Yang"
+    sequence(:email) { |n| "yangliyi#{n}@example.com" }
+    # A sequence will automatically increment n inside the block, 
+    # yielding yangliyi1@example.com, yangliyi2@example.com,
+    # and so on as the factory is used to generate new contacts.
+    # Sequences are essential for any model that has a uniqueness validation.
+    # Faker is a nice alternative.
+  end
+```
+
+### Faker:
+
+**spec/factories/contacts.rb**:
+
+```
+  factory :contact do
+    firstname { Faker::Name.first_name }
+    lastname { Faker::Name.last_name }
+    email { Faker::Internet.email }
+  end
+```
+
+### How to abuse factories
+
+Factories are great, except when they’re not. As mentioned at the beginning of this chapter, unchecked factory usage can cause a test suite to slow down in a hurry– especially when the complexities of associations are introduced. In fact, I’d say that our last factory’s creation of three additional objects every time it is called is pushing it–but at least at this point, the convenience of generating that data with one method call instead of several outweighs any drawbacks.
+While generating associations with factories is an easy way to ramp up tests, it’s also an easy feature to abuse–and often a culprit when test suites’ running times slow to a crawl. When that happens, it’s better to remove associations from factories and build up test data manually. You can also fall back to the Plain Old Ruby Objects approach we used in chapter 3, or even a hybrid approach combining them with factories.
+If you’ve looked at other resources for testing in general or RSpec specifically, you’ve no doubt run across the terms mocks and stubs. If you’ve already got a bit of testing experience under your belt, you may wonder why I’ve been using factories all this time and not mocks and stubs. The answer is because, from my experience, basic objects and factories are easier for getting developers started and comfortable with testing–not to mention, overuse of mocks and stubs can lead to a separate set of problems.
+Since at this stage our application is pretty small, any speed increase we’d see with a fancier approach would be negligible. That said, mocks and stubs do have their roles in testing; we’ll talk more about them in chapters 9 and 10.
+

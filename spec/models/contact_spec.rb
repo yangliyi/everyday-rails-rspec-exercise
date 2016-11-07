@@ -1,73 +1,64 @@
 require 'rails_helper'
 
 describe Contact do
-  it "is valid with a first name, last name and email" do
-    contact = Contact.new(
-      firstname: "Li Yi",
-      lastname: "Yang",
-      email: "yangliyi@example.com"
-    )
-    expect(contact).to be_valid
+  it "has a valid factory" do
+    expect(build(:contact)).to be_valid
+  end
+
+  it"has three phone numbers" do
+    expect(create(:contact).phones.count).to eq 3
   end
 
   it "is invalid without a first name" do
-    contact = Contact.new(firstname: nil)
+    contact = build(:contact, firstname: nil)
     contact.valid?
     expect(contact.errors[:firstname]).to include("can't be blank")
   end
 
   it "is invalid without a last name" do
-    contact = Contact.new(lastname: nil)
+    contact = build(:contact, lastname: nil)
     contact.valid?
     expect(contact.errors[:lastname]).to include("can't be blank")
   end
 
   it "is invalid without a email address" do
-    contact = Contact.new(email: nil)
+    contact = build(:contact, email: nil)
     contact.valid?
     expect(contact.errors[:email]).to include("can't be blank")
   end
 
   it "is invalid without a duplicate email address" do
-    Contact.create(
-      firstname: "Li Yi",
-      lastname: "Yang",
-      email: "yangliyi@example.com"
-    )
-    contact = Contact.new(
-      firstname: "Second",
-      lastname: "Tester",
-      email: "yangliyi@example.com"
-    )
+    create(:contact, email: "yangliyi@example.com")
+    contact = build(:contact, email: "yangliyi@example.com")
     contact.valid?
     expect(contact.errors[:email]).to include("has already been taken")
   end
 
   it "returns a contact's full name as a string" do
-    contact = Contact.new(
+    contact = build(
+      :contact,
       firstname: 'Li Yi',
-      lastname: 'Yang',
-      email: 'yangliyi@example.com'
+      lastname: 'Yang'
     )
     expect(contact.name).to eq 'Li Yi Yang'
   end
 
   describe "filter last name by letter" do
     before :each do
-      @iron_man = Contact.create(
+      @iron_man = create(
+        :contact,
         firstname: "Tony",
         lastname: "Stark",
-        email: "tonystark@example.com"
       )
-      @spider_man = Contact.create(
+      @spider_man = create(
+        :contact,
         firstname: "Peter",
         lastname: "Parker",
-        email: "peterparker@example.com"
       )
-      @bat_man = Contact.create(
+      @bat_man = create(
+        :contact,
         firstname: "Bruce",
         lastname: "Wayne",
-        email: "brunewayne@example.com"
       )
     end
 
